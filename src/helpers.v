@@ -1,10 +1,9 @@
 module main
 
-fn help_me(h string) {
-	println('Help me with VLang please!!!')
+fn help_me(msg string) {
+	println(msg)
 }
 
-fn thank_you(h string) {
-	help_me('wææææ')
-	println('Thanks you so much VLang :)')
+fn thank_you() {
+	help_me('Thanks you so much VLang :)')
 }

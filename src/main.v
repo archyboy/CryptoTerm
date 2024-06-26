@@ -9,6 +9,10 @@ fn main() {
 	mut exchange := 'bybit'
 	mut demo_mode := false
 
+
+	// Testing new branch
+
+
 	// mut app := bybit.App{}
 	unsafe {
 		start:

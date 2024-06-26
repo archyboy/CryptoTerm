@@ -9,8 +9,6 @@ fn main() {
 	mut exchange := 'bybit'
 	mut demo_mode := false
 
-	// Testline for windows git commit
-
 	// mut app := bybit.App{}
 	unsafe {
 		start:

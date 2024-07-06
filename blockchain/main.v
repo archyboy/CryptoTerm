@@ -124,7 +124,7 @@ fn main() {
 		tb.transactions << tb.new(rand.string(32), random_amount, 'ID: ${i} Text: This is the transaction message')!
 	}
 
-	for _ in 1..9000 {
+	for _ in 1..5000 {
 		mut block := bc.new(tb)!
 		bc.insert_block(block)!
 
@@ -136,11 +136,21 @@ fn main() {
 		exit(1)
 	}
 
-	//data_json := filestuff.read_from_disk() or {
-	//	println(err)
-	//}
+	data_json_u8 := filestuff.read_from_disk() or {
+		println(err)
+		return
+	}
 
-	println(write_result)
+	data_json_array := data_json_u8
+	//println(write_result)
+	println(data_json_u8)
+	println(typeof(data_json_u8))
+	println(data_json_u8.len)
+
+	for _, line in data_json_u8 {
+		println(line)
+	}
+
 	//println(bc_json)
 
 	//println(block_1)

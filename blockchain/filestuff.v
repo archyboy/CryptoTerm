@@ -19,18 +19,16 @@ pub fn write_to_disk(bc_json string) !string {
 	return 'Complete!'
 }
 
-pub fn read_from_disk(bc_json string) !byte {
-
-	mut filename := os.open('blockchain.json') or {
+pub fn read_from_disk() ![]u8 {
+	mut filename := 'blockchain.json'
+	mut file := os.open(filename) or {
     	return error('Oooops..Could not read file')
 	}
 
 	println('Reading data.....')
-	mut data_json := filename.read(mut filename) or {
-		println(err)
-	}
+	mut data_json := file.read_bytes(1000) 
 	
-	filename.close() // always close file descriptor
+	file.close() // always close file descriptor
 
 	return data_json
-}
+	}

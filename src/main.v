@@ -10,13 +10,12 @@ fn main() {
 	mut demo_mode := false
 
 	// Adding a comment on Test branch
-	// Git test comment!!!
-	// mut app := bybit.App{}
+
+	mut app := bybit.initialize(demo_mode)!
 	unsafe {
 		start:
 		os.system('clear')
 		// Initialize the app object for ByBit
-		
 
 		// Sets the right info based on App.mode and App.exchange
 		match exchange {

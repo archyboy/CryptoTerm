@@ -7,13 +7,11 @@ import menus.mainmenu
 
 fn main() {
 	mut exchange := 'bybit'
-	mut demo_mode := false
+	mut demo_mode := true
 
-	// Adding a comment on Test branch
-
+	start:
 	mut app := bybit.initialize(demo_mode)!
 	unsafe {
-		start:
 		os.system('clear')
 		// Initialize the app object for ByBit
 
@@ -78,7 +76,6 @@ fn main() {
 				} else {
 					demo_mode = false
 				}
-
 				goto start
 			}
 			'Q' {

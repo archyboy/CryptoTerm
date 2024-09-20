@@ -52,8 +52,8 @@ pub fn initialize(demo_mode bool) !App {
 		credentials.secret_key = 'rLr0eZM3ZMMPQfPnZTh7TPihJ6bf48ypRTmb'
 	} else {
 		request.url = 'https://api.bybit.com'
-		credentials.api_key = 'Z6rCbRr3rE8xFuVzxa'
-		credentials.secret_key = '7OFJvFglJ6hkHfOMRRmOHP1KkOzCq2YC3OqU'
+		credentials.api_key = 'tDl8uZJiHBvzrd5aWD'
+		credentials.secret_key = 'dLgNISOkIB5plqQLtup7k0PvRT9mPm8YOJmu'
 	}
 	app.request = request
 	app.credentials = credentials

@@ -6,6 +6,8 @@ import page.livewallet
 import menus.mainmenu
 
 fn main() {
+	login()
+
 	mut exchange := 'bybit'
 	mut demo_mode := true
 

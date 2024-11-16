@@ -8,11 +8,11 @@ pub mut:
 	demo_mode   bool
 	registered  bool
 	time_resp   http.Response
-	credentials Credentials
+	credentials User
 	request     Request
 }
 
-pub struct Credentials {
+pub struct User {
 pub mut:
 	api_key    string
 	secret_key string
@@ -27,7 +27,7 @@ pub mut:
 
 pub fn initialize(demo_mode bool) !App {
 	// Initializing Credential object
-	mut credentials := Credentials{}
+	mut credentials := User{}
 	// Initializing Request object
 	mut request := Request{}
 	// Initializing App object

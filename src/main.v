@@ -4,9 +4,13 @@ import os
 import exchanges.bybit
 import page.livewallet
 import menus.mainmenu
+import login
 
 fn main() {
-	login()
+	user := login.login('Welcome to CryptoTerm v.0.1') or {
+		println('Could not run the login prompt because: ${err}')
+		return
+	}
 
 	mut exchange := 'bybit'
 	mut demo_mode := true
@@ -14,7 +18,7 @@ fn main() {
 	start:
 	mut app := bybit.initialize(demo_mode)!
 	unsafe {
-		os.system('clear')
+		// os.system('clear')
 		// Initialize the app object for ByBit
 
 		// Sets the right info based on App.mode and App.exchange
@@ -37,7 +41,7 @@ fn main() {
 		}
 
 		// Matching the users menu choice
-		match mainmenu.run() {
+		match mainmenu.run(user) {
 			'W' {
 				// livewallet.print_api_req_info(app)
 				// livewallet.extras(app)
@@ -80,6 +84,11 @@ fn main() {
 				}
 				goto start
 			}
+			// 'L' {
+			// 	login.login(dummy_users)
+			// 	goto start
+			//
+			// }
 			'Q' {
 				println('\nExiting...Bye Bye!!')
 				exit(0)

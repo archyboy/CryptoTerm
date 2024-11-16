@@ -1,0 +1,23 @@
+{
+	"users":	[
+		{
+			"username":	"archy",
+			"password":	"xzxz",
+			"email":	"",
+			"logins":	0,
+			"attempts":	5
+		}, {
+			"username":	"dummy",
+			"password":	"pass",
+			"email":	"",
+			"logins":	0,
+			"attempts":	5
+		}, {
+			"username":	"meg",
+			"password":	"deg",
+			"email":	"",
+			"logins":	0,
+			"attempts":	5
+		}
+	]
+}

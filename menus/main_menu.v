@@ -2,6 +2,7 @@ module menus
 
 import os
 import userstuff
+import config
 
 // The main menu
 pub fn main_menu(user userstuff.User) string {
@@ -32,7 +33,12 @@ pub fn main_menu(user userstuff.User) string {
 		} else {
 			break
 		}
-		choice = os.input('Choose action ${user.username[0].ascii_str().to_upper()}${user.username[1..user.username.len]}: ') // Waiting for user input
+
+		mut autologin_msg := ''
+		if user.autologin.autologin {
+			autologin_msg = '(autologin)'
+		}
+		choice = os.input('Choose action ${user.username[0].ascii_str().to_upper()}${user.username[1..user.username.len]} ${autologin_msg}: ') // Waiting for user input
 	}
 	return choice.to_upper()
 }

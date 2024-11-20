@@ -4,14 +4,24 @@ import constants
 import os
 import json
 import compression
+import config
+import time
 
 pub struct User {
 pub mut:
-	username string
-	password string
-	email    string
-	logins   int
-	attempts int
+	username  string
+	password  string
+	email     string
+	attempts  int
+	logins    []Logins
+	autologin AutoLogin
+}
+
+pub struct Logins {
+	autologin bool
+	date      string
+	time      string
+	unixtime  int
 }
 
 pub struct Users {
@@ -19,17 +29,32 @@ pub mut:
 	users []User
 }
 
+pub struct AutoLogin {
+pub mut:
+	autologin        bool
+	username_default string = 'archy'
+	password_default string = 'xzxz'
+}
+
 pub fn (mut user User) login(error_msg string) !User {
 	println(error_msg)
 	println('\nPlease login!')
 
-	username := os.input('Username: ')
-	password := os.input('Password: ')
+	mut username := ''
+	mut password := ''
+
+	if !user.autologin.autologin {
+		username = os.input('Username: ')
+		password = os.input_password('Password: ')!
+	} else {
+		username = user.autologin.username_default
+		password = user.autologin.password_default
+	}
 
 	user = user.user_exists(username) or { return err }
 	if user.password != password {
-		user.attempts--
 		if user.attempts > 0 {
+			user.attempts--
 			user.save_user(user)!
 		} else {
 			user.save_dummy_user(user.get_dummy_users())
@@ -135,34 +160,48 @@ pub fn (mut user User) save_dummy_user(users Users) {
 	all_users_json := json.encode_pretty(users)
 
 	// println(all_users_json)
-	if !os.is_file(constants.db_file_path) {
-		mut file_create := os.create(constants.db_file_path) or {
-			println('Could not create the file because: ${err}')
-			return
-		}
-		println('Writing file')
-		file_create.write(all_users_json.bytes()) or {
-			println('Could not write the file because: ${err}')
-		}
-		file_create.close()
+	mut file_create := os.create(constants.db_file_path) or {
+		println('Could not create the file because: ${err}')
+		return
 	}
+	println('Writing file')
+	file_create.write(all_users_json.bytes()) or {
+		println('Could not write the file because: ${err}')
+	}
+	file_create.close()
 }
 
 pub fn (mut user User) get_dummy_users() Users {
 	mut dummy_users := Users{}
 
+	mut dummy_logins := []Logins{}
+
+	dummy_logins << Logins{
+		autologin: false
+		date:      '4.34.1999'
+		time:      '22:22:22'
+		unixtime:  3746264
+	}
+	dummy_logins << Logins{
+		autologin: false
+		date:      '4.34.1999'
+		time:      '22:22:22'
+		unixtime:  3746264
+	}
+
 	dummy_users.users << User{
 		username: 'archy'
 		password: 'xzxz'
 		email:    ''
-		logins:   0
+		logins:   dummy_logins
 		attempts: 3
 	}
+
 	dummy_users.users << User{
 		username: 'dummy'
 		password: 'pass'
 		email:    ''
-		logins:   0
+		logins:   dummy_logins
 		attempts: 3
 	}
 	return dummy_users

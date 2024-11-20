@@ -1,23 +1,27 @@
 {
-	"users":	[
-		{
-			"username":	"archy",
-			"password":	"xzxz",
+	"users":	[{
+			"username":	"dummy",
+			"password":	"pass",
 			"email":	"",
 			"logins":	0,
-			"attempts":	5
+			"attempts":	2
 		}, {
 			"username":	"dummy",
 			"password":	"pass",
 			"email":	"",
 			"logins":	0,
-			"attempts":	5
+			"attempts":	3
 		}, {
-			"username":	"meg",
-			"password":	"deg",
+			"username":	"test",
+			"password":	"test",
 			"email":	"",
 			"logins":	0,
-			"attempts":	5
-		}
-	]
+			"attempts":	98
+		}, {
+			"username":	"yoman",
+			"password":	"yopass",
+			"email":	"",
+			"logins":	0,
+			"attempts":	3
+		}]
 }

@@ -2,9 +2,10 @@ module bybit
 
 import net.http
 
-pub struct App {
+pub struct Exchange {
 pub mut:
-	exchange    string
+	name        string
+	description string
 	demo_mode   bool
 	registered  bool
 	time_resp   http.Response
@@ -25,38 +26,27 @@ pub mut:
 	params   string
 }
 
-pub fn initialize(demo_mode bool) !App {
-	// Initializing Credential object
-	mut credentials := User{}
-	// Initializing Request object
-	mut request := Request{}
-	// Initializing App object
-	mut app := App{
-		exchange: 'bybit'
-		// demo_mode: true
-	}
-	// println(app)
-	// println('App demo mode: ${app.demo_mode}')
-	// if app.demo_mode == false {
-	//	println('Warning....Accounts with real assets in use. Be Cautious! (SW)itch mode?')	
-	//} else {
-	//	println("This is a DEMO account! It's safe to take risk!! (SW)itch mode?")
-	//}
-
-	request.endpoint = '/v5/account/wallet-balance'
-	request.params = 'accountType=UNIFIED&coin=USDT'
+pub fn (mut exchange Exchange) initialize(demo_mode bool) !Exchange {
+	exchange.name = 'bybit'
 
 	if demo_mode {
-		request.url = 'https://api-demo.bybit.com'
-		credentials.api_key = 'R0sYHvih669veiXRne'
-		credentials.secret_key = 'rLr0eZM3ZMMPQfPnZTh7TPihJ6bf48ypRTmb'
+		exchange.description = 'Exchange is ByBit (Demo Mode)'
+		exchange.request.url = 'https://api-demo.bybit.com'
+		exchange.credentials.api_key = '2SEsaFL9sBXpb2c1so'
+		exchange.credentials.secret_key = 'PC4Ae3SVqX4kMhSTbqf2lgK8gAKjB0Y5wZLE'
 	} else {
-		request.url = 'https://api.bybit.com'
-		credentials.api_key = 'tDl8uZJiHBvzrd5aWD'
-		credentials.secret_key = 'dLgNISOkIB5plqQLtup7k0PvRT9mPm8YOJmu'
+		exchange.description = 'Exchange is ByBit'
+		exchange.request.url = 'https://api.bybit.com'
+		exchange.credentials.api_key = 'tDl8uZJiHBvzrd5aWD'
+		exchange.credentials.secret_key = 'dLgNISOkIB5plqQLtup7k0PvRT9mPm8YOJmu'
 	}
-	app.request = request
-	app.credentials = credentials
+	return exchange
+}
 
-	return app
+pub fn (mut exchange Exchange) execute(endpoint string, params string) string {
+	exchange.request.endpoint = endpoint
+	exchange.request.params = params
+
+	result := 'Json '
+	return result
 }

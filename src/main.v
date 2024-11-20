@@ -1,107 +1,22 @@
 module main
 
-import os
 import exchanges.bybit
-import page.livewallet
-import menus.mainmenu
-import login
+import userstuff
+import application
 
 fn main() {
-	user := login.login('Welcome to CryptoTerm v.0.1') or {
-		println('Could not run the login prompt because: ${err}')
-		return
-	}
+	mut user := userstuff.User{}
+	mut exchange := bybit.Exchange{}
 
-	mut exchange := 'bybit'
-	mut demo_mode := true
-
-	start:
-	mut app := bybit.initialize(demo_mode)!
-	unsafe {
-		// os.system('clear')
-		// Initialize the app object for ByBit
-
-		// Sets the right info based on App.mode and App.exchange
-		match exchange {
-			'bybit' {
-				if !app.registered {
-					app = bybit.initialize(demo_mode)!
-				}
-				app.registered = true
-				app.exchange = exchange
-				app.demo_mode = demo_mode
-			}
-			'mybit' {
-				// app = bybit.setup()!
-				// app.exchange = exchange
-			}
-			else {
-				println('Unknown exchange')
-			}
+	mut app := application.App{
+		exchange: exchange.initialize(true)!
+		config:   application.Config{
+			autologin: application.AutoLogin{}
 		}
-
-		// Matching the users menu choice
-		match mainmenu.run(user) {
-			'W' {
-				// livewallet.print_api_req_info(app)
-				// livewallet.extras(app)
-				livewallet.run(mut app) or { println(err) }
-			}
-			'O' {
-				println('\nOwned coins')
-			}
-			'M' {
-				println('\nMarket today')
-				println(app)
-			}
-			'N' {
-				println('\nNew coins')
-			}
-			'B' {
-				println('\nBuying Spot')
-				list_coins()
-			}
-			'S' {
-				println('\nSelling Spot')
-			}
-			'A' {
-				println('\nAdvises & Suggestions')
-			}
-			'R' {
-				println('\nRobot AI')
-			}
-			'C' {
-				println('Config')
-				println(app)
-
-				// goto start
-			}
-			'SW' {
-				if demo_mode == false {
-					demo_mode = true
-				} else {
-					demo_mode = false
-				}
-				goto start
-			}
-			// 'L' {
-			// 	login.login(dummy_users)
-			// 	goto start
-			//
-			// }
-			'Q' {
-				println('\nExiting...Bye Bye!!')
-				exit(0)
-			}
-			else {
-				println('\nUnknown option')
-			}
+		user:     user.login('Welcome to CryptoTerm v.0.1') or {
+			println('Could not run the login prompt because: ${err}')
+			user.login('')!
 		}
-		os.input('\nPress ENTER to continue ').to_upper()
-		goto start
-		// Gets local timestamp string
-		// local_timestamp_str := time.now().unix_milli().str()
-		// local_time_str := time.now()
-		// println('Local time: ${local_time_str} (${local_timestamp_str})')
 	}
+	app.run() or { println('Obs...: ${err}') }
 }

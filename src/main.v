@@ -4,8 +4,6 @@ import exchanges.bybit
 import userstuff
 import application
 import os
-import term.ui
-import strings
 import config
 
 fn test(comment string) ?string {
@@ -22,16 +20,20 @@ fn main() {
 	// println(test('This is the comment!'))
 
 	mut user := userstuff.User{}
-	mut exchange := bybit.Exchange{}
+	// user.autologin.autologin = true
+
+	mut exchange := bybit.Exchange{
+		demo_mode: false
+	}
 
 	mut app := application.App{
-		exchange: exchange.initialize(true)!
+		exchange: exchange.initialize()!
 		config:   config.Config{
 			app_name:    'CryptoTerm'
 			app_version: '0.0.1'
 		}
 	}
 
-	app.run(true, true) or { println('Obs...: ${err}') }
+	app.run(false) or { println('Obs...: ${err}') }
 	// test('Some text')
 }

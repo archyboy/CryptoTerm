@@ -10,8 +10,8 @@ import disco07.colorize
 import strconv
 
 pub fn live_wallet(mut exchange bybit.Exchange) !bool {
-	exchange.execute('/v5/account/wallet-balance', 'accountType=UNIFIED&coin=USDT')
-	println(exchange)
+	exchange.execute('/v5/account/wallet-balance', 'accountType=UNIFIED&coin=USDT')!
+
 	// println(exchange)
 	// println(exchange.credentials.api_key)
 	mut last_wallet_total_balance := 0.0000

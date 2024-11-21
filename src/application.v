@@ -4,9 +4,9 @@ import exchanges.bybit
 import userstuff
 import os
 import pages
-import menus
 import time
 import config
+import term
 
 pub struct App {
 pub mut:
@@ -20,9 +20,12 @@ pub mut:
 // 	println(text)
 // }
 
-pub fn (mut app App) run(autologin bool, demo_mode bool) ! {
-	app.exchange.demo_mode = demo_mode
+pub fn (mut app App) run(autologin bool) ! {
+	term.clear()
+	println('Welcome to ${app.config.app_name} ${app.config.app_version} ${term.cyan('Login time:')} ${term.cyan(time.now().str())}')
+	// app.exchange.demo_mode = demo_mode
 	app.user.autologin.autologin = autologin
+
 	app.user.login('') or {
 		println('Could not run the login prompt because: ${err}')
 		app.user.login('')!
@@ -30,18 +33,15 @@ pub fn (mut app App) run(autologin bool, demo_mode bool) ! {
 
 	os.system('clear')
 	// Gets local timestamp string
-	local_timestamp_str := time.now().unix()
-	local_time_str := time.now()
-	println(time.unix(local_timestamp_str))
-	println('Welcome to ${app.config.app_name} ${app.config.app_version} (Login time: ${local_time_str})')
+	// local_timestamp_str := time.now().unix()
 
 	// Sets the right info based on App.mode and App.exchange
 	match app.exchange.name {
 		'bybit' {
-			app.exchange = app.exchange.initialize(demo_mode)! // Initialize the exchange object for ByBit
+			app.exchange = app.exchange.initialize()! // Initialize the exchange object for ByBit
 		}
 		'mexc' {
-			app.exchange = app.exchange.initialize(demo_mode)! // Initialize the exchange object for Mexc
+			app.exchange = app.exchange.initialize()! // Initialize the exchange object for Mexc
 		}
 		else {
 			println('Unknown exchange')
@@ -50,10 +50,61 @@ pub fn (mut app App) run(autologin bool, demo_mode bool) ! {
 	app.mainpages()!
 }
 
-// Matching the users menu choice
+// The main menu
+pub fn (mut app App) main_menu() string {
+	mut demomode_msg := ''
+	if app.exchange.demo_mode {
+		demomode_msg = term.gray(term.bold('(demo mode)'))
+	}
 
+	mut autologin_msg := ''
+	app.user.autologin.autologin = true
+	// println(app.user.autologin.autologin)
+	if app.user.autologin.autologin {
+		autologin_msg = term.gray(term.bold('(autologin)'))
+	}
+
+	println('${app.exchange.description} ${autologin_msg} ${demomode_msg}')
+	// println(exchange.description)
+	mut menu := map[string]string{}
+	menu['W'] = 'allet'
+	menu['O'] = 'wned coins'
+	menu['M'] = 'arket'
+	menu['N'] = 'ew coins'
+	menu['B'] = 'uy'
+	menu['S'] = 'ell'
+	menu['A'] = 'dvises'
+	menu['R'] = 'obot AI'
+	menu['C'] = 'onfig'
+	menu['SW'] = 'itch mode'
+	menu['SY'] = 'ystem crash'
+	menu['LO'] = 'og out'
+	menu['Q'] = 'uit'
+
+	for menu_key, menu_text in menu {
+		menu[menu_key] = '(${term.yellow(menu_key)})${menu_text}'
+	}
+
+	mut choice := ''
+	// Looping out the menu
+	for menu_key, menu_text in menu {
+		if choice == '' && choice != menu_key { // Looping as long as choice not in map
+			// os.system('clear')
+			for key, text in menu {
+				println(text)
+			}
+		} else {
+			break
+		}
+		choice = os.input('Choose action ${app.user.username[0].ascii_str().to_upper()}${app.user.username[1..app.user.username.len]}: ') // Waiting for user input
+	}
+	return choice.to_upper()
+}
+
+// Matching the users menu choice
 pub fn (mut app App) mainpages() ! {
-	match menus.main_menu(app.user) {
+	term.clear()
+	match app.main_menu() {
 		'W' {
 			// livewallet.print_api_req_info(exchange)
 			// livewallet.extras(exchange)
@@ -71,7 +122,7 @@ pub fn (mut app App) mainpages() ! {
 		}
 		'B' {
 			println('\nBuying')
-			pages.buy_coins(app.exchange)
+			pages.buy_coins(mut app.exchange)!
 		}
 		'S' {
 			println('\nSelling Spot')
@@ -95,16 +146,19 @@ pub fn (mut app App) mainpages() ! {
 				app.exchange.demo_mode = false
 			}
 		}
-		'SC' {
-			panic('Big error!! System crash!')
+		'SY' {
+			println('Simulating a panic attack')
+			print_backtrace()
 		}
 		'LO' {
 			// app = App{} // Clearing all app data including userdata for logout
 			app.user.autologin.autologin = false
+			println('Logged out!')
 			// app.user.login('Logged out')!
-			app.run(app.user.autologin.autologin, app.exchange.demo_mode)!
 		}
 		'Q' {
+			term_width, term_height := term.get_terminal_size()
+			term.set_cursor_position(x: term_width / 2, y: term_height / 2)
 			println('\nExiting...Bye Bye!!')
 			exit(0)
 		}
@@ -113,5 +167,5 @@ pub fn (mut app App) mainpages() ! {
 		}
 	}
 	os.input('\nPress ENTER to continue ').to_upper()
-	app.mainpages()!
+	app.run(app.user.autologin.autologin)!
 }

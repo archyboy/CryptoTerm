@@ -37,12 +37,13 @@ pub mut:
 }
 
 pub fn (mut user User) login(error_msg string) !User {
-	println(error_msg)
-	println('\nPlease login!')
+	// println(error_msg)
+	// println('\nPlease login!')
 
 	mut username := ''
 	mut password := ''
 
+	// println(user.autologin.autologin)
 	if !user.autologin.autologin {
 		username = os.input('Username: ')
 		password = os.input_password('Password: ')!
@@ -63,7 +64,7 @@ pub fn (mut user User) login(error_msg string) !User {
 
 		return user.login('Wrong password. ${user.attempts} attempts left')
 	} else {
-		println('\nWelcome ${user.username[0].ascii_str().to_upper()}${user.username[1..user.username.len]}! Choose what you want to do today.')
+		// println('\nWelcome ${user.username[0].ascii_str().to_upper()}${user.username[1..user.username.len]}! Choose what you want to do today.')
 		return user
 	}
 	return user
@@ -125,21 +126,20 @@ pub fn (mut user User) save_user(user_to_save User) ! {
 	mut users := user.get_users()!
 
 	users.users[0] = user_to_save
+	all_users_json := json.encode_pretty(users)
 
 	// println(user_to_save)
 	// println(users)
-	all_users_json := json.encode_pretty(users)
-
-	println('All users json:')
+	// println('All users json:')
 	// println(all_users_json)
+	// println(os.is_file(constants.db_file_path))
 
-	println(os.is_file(constants.db_file_path))
 	if os.is_file(constants.db_file_path) {
 		mut db_file := os.create(constants.db_file_path) or {
 			println('Could not open file')
 			return
 		}
-		println('Writing file....')
+		// println('Writing file....')
 		db_file.flush()
 
 		// compressed_all_users_json := compression.compress(all_users_json)!

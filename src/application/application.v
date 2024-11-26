@@ -21,8 +21,16 @@ pub mut:
 
 pub fn (mut app App) run(autologin bool) ! {
 	term.clear()
-	println('Welcome to ${app.config.app_name} ${app.config.app_version} ${term.cyan('Login time:')} ${term.cyan(time.now().str())}')
-	// app.exchange.demo_mode = demo_mode
+	term.set_terminal_title(app.config.app_name + ' ' + app.config.app_version + ' (' + app.exchange.name + ')')
+	term_width, term_height := term.get_terminal_size()
+
+	// for i := term_height;  i < 0; i-- {
+	// 	term.set_cursor_position(x: term_width, y: term_height - (i - 10))
+	// 	time.sleep(time.second / 10 )
+	//
+	// }
+
+	// // app.exchange.demo_mode = demo_mode
 	app.user.autologin.autologin = autologin
 
 	app.user.login('') or {
@@ -30,7 +38,6 @@ pub fn (mut app App) run(autologin bool) ! {
 		app.user.login('')!
 	}
 
-	os.system('clear')
 	// Gets local timestamp string
 	// local_timestamp_str := time.now().unix()
 
@@ -54,6 +61,7 @@ pub fn (mut app App) run(autologin bool) ! {
 
 // The main menu
 pub fn (mut app App) main_menu() string {
+
 	mut demomode_msg := ''
 	if app.exchange.demo_mode {
 		demomode_msg = term.gray(term.bold('(demo mode)'))
@@ -68,6 +76,8 @@ pub fn (mut app App) main_menu() string {
 
 	println('${app.exchange.description} ${autologin_msg} ${demomode_msg}')
 	// println(exchange.description)
+
+
 	mut menu := map[string]string{}
 	menu['BT'] = 'itGet'
 	menu['AN'] = 'oucements'
@@ -85,6 +95,7 @@ pub fn (mut app App) main_menu() string {
 	menu['LO'] = 'og out'
 	menu['Q'] = 'uit'
 
+
 	for menu_key, menu_text in menu {
 		menu[menu_key] = '(${term.yellow(menu_key)})${menu_text}'
 	}
@@ -92,9 +103,18 @@ pub fn (mut app App) main_menu() string {
 	mut choice := ''
 	// Looping out the menu
 	for menu_key, menu_text in menu {
+		term_width, term_height := term.get_terminal_size()
+
+
 		if choice == '' && choice != menu_key { // Looping as long as choice not in map
-			// os.system('clear')
+		 	term.set_cursor_position(x: term_width % 1 + (0 + 5), y: term_height + (0 + 5))
+			println('Welcome to ${app.config.app_name} ${app.config.app_version} ${term.cyan('Login time:')} ${term.cyan(time.now().str())}')
+
+			mut i := 0
 			for key, text in menu {
+				i++
+				term.set_cursor_position(x: term_width % 1 + (i + 5), y: term_height + (i + 5))
+				time.sleep(time.second / 20 )
 				println(text)
 			}
 		} else {
@@ -107,7 +127,7 @@ pub fn (mut app App) main_menu() string {
 
 // Matching the users menu choice
 pub fn (mut app App) mainpages() ! {
-	term.clear()
+
 	match app.main_menu() {
 		'BT' {
 			// livewallet.print_api_req_info(exchange)
@@ -169,8 +189,6 @@ pub fn (mut app App) mainpages() ! {
 			// app.user.login('Logged out')!
 		}
 		'Q' {
-			term_width, term_height := term.get_terminal_size()
-			term.set_cursor_position(x: term_width / 2, y: term_height / 2)
 			println('\nExiting...Bye Bye!!')
 			exit(0)
 		}

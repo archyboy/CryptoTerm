@@ -2,7 +2,8 @@ module bitget
 
 import json
 
-pub fn get_params_place_order() map[string]string {
+
+pub fn (exchange Exchange) get_params_place_order() map[string]string {
 	place_order_params := {
 		'symbol':                 'SETHSUSDT'
 		'productType':            'susdt-futures'
@@ -22,7 +23,7 @@ pub fn get_params_place_order() map[string]string {
 	return place_order_params
 }
 
-pub fn get_params_assets() map[string]string {
+pub fn (exchange Exchange) get_params_assets() map[string]string {
 	assets_params := {
 		'symbol':                 'SETHSUSDT'
 		'productType':            'susdt-futures'

@@ -9,16 +9,7 @@ pub fn (app App) buy_coins(mut exchange bitget.Exchange) ! {
 
 	match os.input('Choose coin (R)eturn: ').to_upper() {
 		'BTC' {
-			params := {
-				'category':  'linear'
-				'symbol':    'BTCUSDT'
-				'side':      'Buy'
-				//"positionIdx": "0",
-				'orderType': 'Limit'
-				'qty':       '0.0001'
-				'price':     '97000'
-				//"timeInForce": "GTC",
-			}
+			params := exchange.get_params_place_order()
 
 			println(params)
 

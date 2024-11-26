@@ -1,10 +1,11 @@
 module main
 
-import exchanges.bybit
+import exchanges.bitget
 import userstuff
 import application
 import os
 import config
+import exchanges.bybit
 
 fn test(comment string) ?string {
 	if comment.len > 0 {
@@ -22,7 +23,11 @@ fn main() {
 	mut user := userstuff.User{}
 	// user.autologin.autologin = true
 
-	mut exchange := bybit.Exchange{
+	// mut exchange := bybit.Exchange{
+	// 	demo_mode: false
+	// }
+
+	mut exchange := bitget.Exchange{
 		demo_mode: false
 	}
 
@@ -34,6 +39,6 @@ fn main() {
 		}
 	}
 
-	app.run(false) or { println('Obs...: ${err}') }
+	app.run(true) or { println('Obs...: ${err}') }
 	// test('Some text')
 }

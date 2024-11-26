@@ -61,10 +61,8 @@ pub fn (mut user User) login(error_msg string) !User {
 			user.save_dummy_user(user.get_dummy_users())
 			user.login('Sorry.. You have typed wrong password too many times. Resetting database file')!
 		}
-
 		return user.login('Wrong password. ${user.attempts} attempts left')
 	} else {
-		// println('\nWelcome ${user.username[0].ascii_str().to_upper()}${user.username[1..user.username.len]}! Choose what you want to do today.')
 		return user
 	}
 	return user

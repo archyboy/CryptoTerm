@@ -105,7 +105,7 @@ pub fn (mut exchange Exchange) execute(method string, endpoint string, params st
 	api_req.header.add_custom('ACCESS-KEY', exchange.credentials.api_key)!
 	api_req.header.add_custom('ACCESS-SIGN', signature_bae64_str.str())!
 	api_req.header.add_custom('ACCESS-TIMESTAMP', time_resp.data.server_time.str())!
-	api_req.header.add_custom('ACCESS-PASSPHRASE', 'RabbaGast78')!
+	api_req.header.add_custom('ACCESS-PASSPHRASE', 'xxxxxxxxx')!
 
 	println(api_req)
 

@@ -1,9 +1,6 @@
 module bitget
 
-import json
-
-
-pub fn (exchange Exchange) get_params_place_order() map[string]string {
+pub fn (exchange Exchange) get_params_place_order_demo() map[string]string {
 	place_order_params := {
 		'symbol':                 'SETHSUSDT'
 		'productType':            'susdt-futures'
@@ -19,6 +16,23 @@ pub fn (exchange Exchange) get_params_place_order() map[string]string {
 		'reduceOnly':             'NO'
 		'presetStopSurplusPrice': '2300'
 		'presetStopLossPrice':    '1800'
+	}
+	return place_order_params
+}
+
+pub fn (exchange Exchange) get_params_place_order() map[string]string {
+	place_order_params := {
+		'symbol':      'ETHUSDT'
+		'productType': 'USDT-FUTURES'
+		'marginMode':  'isolated'
+		'marginCoin':  'USDT'
+		'size':        '0.1'
+		'price':       '2000'
+		'side':        'sell'
+		'tradeSide':   'open'
+		'orderType':   'limit'
+		'force':       'gtc'
+		'clientOid':   '121211212122'
 	}
 	return place_order_params
 }

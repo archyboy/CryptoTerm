@@ -7,16 +7,6 @@ import os
 import config
 import exchanges.bybit
 
-fn test(comment string) ?string {
-	if comment.len > 0 {
-		os.flush()
-		os.get_raw_line()
-		os.stdin()
-		return comment
-	}
-	return none
-}
-
 fn main() {
 	// println(test('This is the comment!'))
 

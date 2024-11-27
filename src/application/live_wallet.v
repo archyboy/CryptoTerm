@@ -42,9 +42,6 @@ pub fn (app App) live_wallet(mut exchange bitget.Exchange) !bool {
 		server_timestamp_str := server_timestamp_int.str()
 
 		println('TIMESTAMP: ${server_timestamp_str} = ${time.unix(time.now().unix())}')
-		if 20 > 10 {
-			println('Is higher')
-		}
 
 		println('RESULT:')
 		server_result := server_time_map['result'].as_map()
@@ -58,7 +55,7 @@ pub fn (app App) live_wallet(mut exchange bitget.Exchange) !bool {
 		signature := hmac.new(exchange.credentials.secret_key.bytes(), params_for_signature_str.bytes(),
 			sha256.sum, sha256.block_size).hex()
 
-		mut api_req := http.new_request(http.Method.get, '${exchange.request.url}${endpoint}?${params}',
+		mut api_req := http.new_request(http.Method.get, '${exchange.request.url}${endpoint}${params}',
 			'')
 		api_req.add_header(http.CommonHeader.accept, 'application/json')
 		api_req.header.add_custom('X-BAPI-API-KEY', exchange.credentials.api_key)!

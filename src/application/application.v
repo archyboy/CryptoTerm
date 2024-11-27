@@ -21,7 +21,8 @@ pub mut:
 
 pub fn (mut app App) run(autologin bool) ! {
 	term.clear()
-	term.set_terminal_title(app.config.app_name + ' ' + app.config.app_version + ' (' + app.exchange.name + ')')
+	term.set_terminal_title(app.config.app_name + ' ' + app.config.app_version + ' (' +
+		app.exchange.name + ')')
 	term_width, term_height := term.get_terminal_size()
 
 	// for i := term_height;  i < 0; i-- {
@@ -61,7 +62,6 @@ pub fn (mut app App) run(autologin bool) ! {
 
 // The main menu
 pub fn (mut app App) main_menu() string {
-
 	mut demomode_msg := ''
 	if app.exchange.demo_mode {
 		demomode_msg = term.gray(term.bold('(demo mode)'))
@@ -77,11 +77,11 @@ pub fn (mut app App) main_menu() string {
 	println('${app.exchange.description} ${autologin_msg} ${demomode_msg}')
 	// println(exchange.description)
 
-
 	mut menu := map[string]string{}
 	menu['BT'] = 'itGet'
 	menu['AN'] = 'oucements'
 	menu['W'] = 'allet'
+	menu['LI'] = 've wallet'
 	menu['O'] = 'wned coins'
 	menu['M'] = 'arket'
 	menu['N'] = 'ew coins'
@@ -95,7 +95,6 @@ pub fn (mut app App) main_menu() string {
 	menu['LO'] = 'og out'
 	menu['Q'] = 'uit'
 
-
 	for menu_key, menu_text in menu {
 		menu[menu_key] = '(${term.yellow(menu_key)})${menu_text}'
 	}
@@ -105,16 +104,15 @@ pub fn (mut app App) main_menu() string {
 	for menu_key, menu_text in menu {
 		term_width, term_height := term.get_terminal_size()
 
-
 		if choice == '' && choice != menu_key { // Looping as long as choice not in map
-		 	term.set_cursor_position(x: term_width % 1 + (0 + 5), y: term_height + (0 + 5))
+			term.set_cursor_position(x: term_width % 1 + (0 + 5), y: term_height + (0 + 5))
 			println('Welcome to ${app.config.app_name} ${app.config.app_version} ${term.cyan('Login time:')} ${term.cyan(time.now().str())}')
 
 			mut i := 0
 			for key, text in menu {
 				i++
 				term.set_cursor_position(x: term_width % 1 + (i + 5), y: term_height + (i + 5))
-				time.sleep(time.second / 20 )
+				time.sleep(time.second / 20)
 				println(text)
 			}
 		} else {
@@ -127,7 +125,6 @@ pub fn (mut app App) main_menu() string {
 
 // Matching the users menu choice
 pub fn (mut app App) mainpages() ! {
-
 	match app.main_menu() {
 		'BT' {
 			// livewallet.print_api_req_info(exchange)
@@ -138,6 +135,9 @@ pub fn (mut app App) mainpages() ! {
 			app.exchange.announcements()!
 		}
 		'W' {
+			app.show_assets(app.get_assets()!)
+		}
+		'LI' {
 			// livewallet.print_api_req_info(exchange)
 			// livewallet.extras(exchange)
 			app.live_wallet(mut app.exchange) or { println(err) }

@@ -2,6 +2,7 @@ module application
 
 import os
 import exchanges.bitget
+import json
 
 pub fn (app App) buy_coins(mut exchange bitget.Exchange) ! {
 	list_coins()
@@ -14,9 +15,12 @@ pub fn (app App) buy_coins(mut exchange bitget.Exchange) ! {
 			println(params)
 
 			println('Trading BitCoin')
-			exchange.execute('GET'.to_upper(), '/v5/order/create', exchange.to_params_str(params)) or {
+			resp := exchange.execute('POST'.to_upper(), '/api/v2/mix/order/place-order',
+				json.encode(params)) or {
 				println(err)
+				return
 			}
+			println(resp)
 		}
 		'DOGE' {
 			println('Trading DogeCoin')

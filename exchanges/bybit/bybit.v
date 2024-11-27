@@ -94,9 +94,9 @@ pub fn (mut exchange Exchange) execute(endpoint string, params string) !http.Res
 
 	println(signature)
 
-	reguest_url := '${exchange.request.url}${endpoint}?${params}'
 	println(exchange.request.url)
-	mut api_req := http.new_request(http.Method.get, reguest_url, '')
+	mut api_req := http.new_request(http.Method.get, '${exchange.request.url}${endpoint}${params}',
+		'')
 
 	println(api_req)
 

@@ -111,8 +111,8 @@ pub fn (mut app App) main_menu() string {
 			mut i := 0
 			for key, text in menu {
 				i++
-				term.set_cursor_position(x: term_width % 1 + (i + 5), y: term_height + (i + 5))
-				time.sleep(time.second / 20)
+				term.set_cursor_position(x: term_width % 1 + (i * 1), y: term_height + (i + 5))
+				time.sleep(time.second / 40)
 				println(text)
 			}
 		} else {

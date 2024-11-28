@@ -1,6 +1,6 @@
 module bitget
 
-pub fn (exchange Exchange) to_params_str(params map[string]string) string {
+pub fn (exchange Exchange) params_to_query_str(params map[string]string) string {
 	// println(params)
 	mut params_str := ''
 	for params_key, params_value in params {

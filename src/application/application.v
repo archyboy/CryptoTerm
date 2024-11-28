@@ -6,6 +6,7 @@ import os
 import time
 import config
 import term
+import sandbox
 
 pub struct App {
 pub mut:
@@ -78,7 +79,7 @@ pub fn (mut app App) main_menu() string {
 	// println(exchange.description)
 
 	mut menu := map[string]string{}
-	menu['BT'] = 'itGet'
+	menu['SA'] = 'ndbox'
 	menu['AN'] = 'oucements'
 	menu['W'] = 'allet'
 	menu['LI'] = 've wallet'
@@ -111,7 +112,7 @@ pub fn (mut app App) main_menu() string {
 			mut i := 0
 			for key, text in menu {
 				i++
-				term.set_cursor_position(x: term_width % 1 + (i * 1), y: term_height + (i + 5))
+				term.set_cursor_position(x: term_width % 1 + (i + 5), y: term_height + (i + 5))
 				time.sleep(time.second / 40)
 				println(text)
 			}
@@ -119,6 +120,7 @@ pub fn (mut app App) main_menu() string {
 			break
 		}
 		choice = os.input('Choose action ${app.user.username[0].ascii_str().to_upper()}${app.user.username[1..app.user.username.len]}: ') // Waiting for user input
+		println('\n\n')
 	}
 	return choice.to_upper()
 }
@@ -126,16 +128,17 @@ pub fn (mut app App) main_menu() string {
 // Matching the users menu choice
 pub fn (mut app App) mainpages() ! {
 	match app.main_menu() {
-		'BT' {
-			// livewallet.print_api_req_info(exchange)
-			// livewallet.extras(exchange)
+		'SA' {
+			sb := sandbox.SandBox{}
+			sb.function_optional_return()
 		}
 		'AN' {
-			println('\nLast annoucements')
-			app.exchange.announcements()!
+			println('\nLast announcements')
+			app.show_announcement() or { println(err) }
 		}
 		'W' {
-			app.show_assets(app.get_assets()!)
+			println('Your assets (${term.bold(term.gray(app.exchange.name))})')
+			app.show_assets() or { println(err) }
 		}
 		'LI' {
 			// livewallet.print_api_req_info(exchange)

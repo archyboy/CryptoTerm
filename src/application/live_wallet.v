@@ -17,7 +17,8 @@ pub fn (app App) live_wallet(mut exchange bitget.Exchange) !bool {
 	}
 
 	endpoint := '/v5/account/wallet-balance'
-	exchange.execute('GET'.to_upper(), endpoint, exchange.to_params_str(params))!
+	exchange.execute('GET'.to_upper(), endpoint, exchange.params_to_query_str(params),
+		'')!
 
 	// println(exchange)
 	// println(exchange.credentials.api_key)

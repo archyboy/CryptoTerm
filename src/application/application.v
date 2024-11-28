@@ -131,46 +131,49 @@ pub fn (mut app App) main_menu() string {
 pub fn (mut app App) mainpages() ! {
 	match app.main_menu() {
 		'SA' {
+			println('The Sandbox. Have fun, learn and experiment!\n')
 			sb := sandbox.SandBox{}
 			sb.function_optional_return()
 		}
 		'AN' {
-			println('\nLast announcements')
+			println('Last announcements\n')
 			app.show_announcement() or { println(err) }
 		}
 		'W' {
-			println('Your assets (${term.bold(term.gray(app.exchange.name))})')
+			println('All your assets accounts (${term.bold(term.gray(app.exchange.name))})\n')
 			app.show_assets() or { println(err) }
 		}
 		'LI' {
+			println('Live wallet\n')
 			// livewallet.print_api_req_info(exchange)
 			// livewallet.extras(exchange)
 			app.live_wallet(mut app.exchange) or { println(err) }
 		}
 		'O' {
-			println('\nOwned coins')
+			println('Owned coins\n')
 		}
 		'M' {
-			println('\nMarket today')
+			println('Market today\n')
 			println(app.exchange)
 		}
 		'N' {
-			println('\nNew coins')
+			println('New coins\n')
 		}
 		'B' {
+			println('What you want to buy today?\n')
 			app.buy_coins(mut app.exchange)!
 		}
 		'S' {
-			println('\nSelling Spot')
+			println('Selling Spot\n')
 		}
 		'A' {
-			println('\nAdvises & Suggestions')
+			println('Advises & Suggestions\n')
 		}
 		'R' {
-			println('\nRobot AI')
+			println('Robot AI\n')
 		}
 		'C' {
-			println('Config')
+			println('Config\n')
 			println(app)
 
 			// goto start
@@ -185,7 +188,7 @@ pub fn (mut app App) mainpages() ! {
 			}
 		}
 		'SY' {
-			println('Simulating a panic attack')
+			println('Simulating a panic attack\n')
 			print_backtrace()
 		}
 		'LO' {
@@ -195,13 +198,13 @@ pub fn (mut app App) mainpages() ! {
 			// app.user.login('Logged out')!
 		}
 		'Q' {
-			println('\nExiting...Bye Bye!!')
+			println('\nExiting...Bye Bye!!\n')
 			exit(0)
 		}
 		else {
-			println('\nUnknown option')
+			println('\nUnknown option\n')
 		}
 	}
-	os.input('\nPress ENTER to continue ').to_upper()
+	os.input('\nPress ENTER to continue\n').to_upper()
 	app.run(app.user.autologin.autologin)!
 }

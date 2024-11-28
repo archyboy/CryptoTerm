@@ -27,19 +27,19 @@ pub fn timestamp_milliseconds_to_date(timestamp i64) string {
 }
 
 fn init() {
-	now_seconds := time.now().unix()
-	now_millis := time.now().unix_milli()
-
-	println('Human-readable date: ${timestamp_milliseconds_to_date(now_millis)}')
-	m := Map{
-		map_string_string: {
-			'one':   'One   (string_key) in a map[string]string'
-			'two':   'Two   (string_key) in a map[string]string'
-			'three': 'Three (string_key) in a map[string]string'
-		}
-	}
-	m.short_by_key_ascending()
-	// exit(0)
+	// now_seconds := time.now().unix()
+	// now_millis := time.now().unix_milli()
+	//
+	// println('Human-readable date: ${timestamp_milliseconds_to_date(now_millis)}')
+	// m := Map{
+	// 	map_string_string: {
+	// 		'one':   'One   (string_key) in a map[string]string'
+	// 		'two':   'Two   (string_key) in a map[string]string'
+	// 		'three': 'Three (string_key) in a map[string]string'
+	// 	}
+	// }
+	// m.short_by_key_ascending()
+	// // exit(0)
 }
 
 pub fn sort_map_string_string(m map[string]string) !map[string]string {

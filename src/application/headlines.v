@@ -32,7 +32,7 @@ pub fn (mut app App) get_announcements() !Announcement {
 
 	query_params := app.exchange.params_to_query_str(map_params)
 
-	println(json_params)
+	// println(json_params)
 	resp := app.exchange.execute('GET', '/api/v2/public/annoucements', '${query_params}',
 		'')!
 	// println(resp.body)
@@ -53,21 +53,11 @@ pub fn (mut app App) show_announcement() ! {
 	// exit(0)
 
 	for key, value in announcements_array {
-		timestamp := i64(17327844228428756825)
-		t := time.unix_nano(timestamp)
+		timestamp := i64(value.timestamp.i64())
 
-		println(t.unix_nano())
-		println(t.unix_micro())
-		println(t.unix_milli())
-		println(t.unix())
-		println(t.format())
-		println(typeof(t).name)
-
-		println('${term.gray(fancystuff.timestamp_milliseconds_to_date(value.timestamp.i64()))}')
+		println('${term.gray(time.unix_milli(timestamp).str())} ${term.gray('[${(key + 1).str()}]')}')
 		println('${term.bright_blue(term.bold(value.title))}')
-
 		if value.language == const_language {
-			// println(value.language)
 			println('${term.bright_yellow(value.description)}')
 		}
 		println('${term.bright_green(value.url)}')

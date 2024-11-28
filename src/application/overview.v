@@ -31,9 +31,13 @@ pub fn (mut app App) get_assets() !AssetsOverview {
 pub fn (mut app App) show_assets() ! {
 	assets := app.get_assets() or { return error('Could not get assets') }
 
+	mut total_assets := 0.000000
 	for key, account in assets.accounts {
-		println('${term.white('Account: ')} ${term.bright_blue(term.bold(account.account_type))}')
-		println('${term.white('Balance: ')} ${term.bright_yellow(term.bold(account.usdt_balance))}')
-		println('${term.white('--------------------------')}')
+		println('${term.bright_blue(term.bold(account.account_type.title()))} ')
+		println('${term.bright_yellow(account.usdt_balance)} ${term.gray('usdt')}')
+		println('${term.gray('---------------------------')}')
+
+		total_assets += account.usdt_balance.f64()
 	}
+	println('Total assets: ${term.bright_yellow(term.bold(total_assets.str()))} ${term.gray('usdt')}')
 }

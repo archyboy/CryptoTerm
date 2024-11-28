@@ -31,5 +31,4 @@ fn main() {
 	}
 
 	app.run(true) or { println('Obs...: ${err}') }
-	// test('Some text')
 }

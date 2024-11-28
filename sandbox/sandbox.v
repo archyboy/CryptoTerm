@@ -13,12 +13,17 @@ struct Toys {
 }
 
 fn init() {
+	// run()
+}
+
+pub fn run() {
 	mut m := map[string]string{}
 	m = {
 		'one':   'One Love'
 		'two':   'Two Starts'
 		'three': 'Three is all good'
 	}
+
 	sb := SandBox{}
 	sb.function_optional_return()
 }

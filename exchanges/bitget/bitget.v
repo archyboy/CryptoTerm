@@ -7,6 +7,7 @@ import crypto.sha256
 import crypto.hmac
 import term
 import encoding.base64
+import log
 
 //-------------------------------- STRUCTS --------------------------------
 pub struct Exchange {
@@ -112,11 +113,11 @@ pub fn (mut exchange Exchange) execute(method string, endpoint string, query_str
 	mut full_request_url := ''
 
 	if query_string.len <= 0 {
-		print('NO querystring:  ${query_string}')
+		// print('NO querystring:  ${query_string}')
 		params_for_signature_str = (time_resp.data.server_time + method + endpoint + body).trim(' ')
 		full_request_url = (exchange.request.url + endpoint).trim(' ')
 	} else {
-		print('YES querystring: ${query_string}')
+		// print('YES querystring: ${query_string}')
 		params_for_signature_str = (time_resp.data.server_time + method + endpoint + '?' +
 			query_string).trim(' ')
 		full_request_url = (exchange.request.url + endpoint + '?' + query_string).trim(' ')
@@ -135,14 +136,14 @@ pub fn (mut exchange Exchange) execute(method string, endpoint string, query_str
 	// println('Signature_base64_hash: ' + signature_base64_str)
 
 	// println('Full Request URL: ' + full_request_url)
-
+	mut debug_mode := false
 	mut api_req := http.Request{}
 	if method.to_upper() == 'GET' {
-		println('Method: GET')
+		// println('Method: GET')
 		api_req = http.new_request(http.Method.get, full_request_url, '')
 	}
 	if method.to_upper() == 'POST' {
-		println('Method: POST')
+		// println('Method: POST')
 		api_req = http.new_request(http.Method.post, full_request_url, body)
 	}
 
@@ -157,7 +158,7 @@ pub fn (mut exchange Exchange) execute(method string, endpoint string, query_str
 	api_resp := api_req.do() or {
 		return error('Could not execute request to API. Check your URL(endpoint/params etc )')
 	}
-	println(api_resp)
+	// println(api_resp)
 
 	return api_resp
 }

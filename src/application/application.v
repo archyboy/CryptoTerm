@@ -63,6 +63,7 @@ pub fn (mut app App) run(autologin bool) ! {
 
 // The main menu
 pub fn (mut app App) main_menu() string {
+	os.execute('clear')
 	mut demomode_msg := ''
 	if app.exchange.demo_mode {
 		demomode_msg = term.gray(term.bold('(demo mode)'))
@@ -106,14 +107,14 @@ pub fn (mut app App) main_menu() string {
 		term_width, term_height := term.get_terminal_size()
 
 		if choice == '' && choice != menu_key { // Looping as long as choice not in map
-			term.set_cursor_position(x: term_width % 1 + (0 + 5), y: term_height + (0 + 5))
+			// term.set_cursor_position(x: term_width % 1 + (0 + 5), y: term_height + (0 + 5))
 			println('Welcome to ${app.config.app_name} ${app.config.app_version} ${term.cyan('Login time:')} ${term.cyan(time.now().str())}')
 
 			mut i := 0
 			for key, text in menu {
 				i++
-				term.set_cursor_position(x: term_width % 1 + (i + 5), y: term_height + (i + 5))
-				time.sleep(time.second / 40)
+				// term.set_cursor_position(x: term_width % 1 + (i + 5), y: term_height + (i + 5))
+				// time.sleep(time.second / 10)
 				println(text)
 			}
 		} else {
@@ -121,6 +122,7 @@ pub fn (mut app App) main_menu() string {
 		}
 		choice = os.input('Choose action ${app.user.username[0].ascii_str().to_upper()}${app.user.username[1..app.user.username.len]}: ') // Waiting for user input
 		println('\n\n')
+		term.erase_clear()
 	}
 	return choice.to_upper()
 }
@@ -156,7 +158,6 @@ pub fn (mut app App) mainpages() ! {
 			println('\nNew coins')
 		}
 		'B' {
-			println('\nBuying')
 			app.buy_coins(mut app.exchange)!
 		}
 		'S' {
@@ -177,8 +178,10 @@ pub fn (mut app App) mainpages() ! {
 		'SW' {
 			if app.exchange.demo_mode == false {
 				app.exchange.demo_mode = true
+				println('You switched to ${term.bright_red(term.bold('Demo Mode :('))}')
 			} else {
 				app.exchange.demo_mode = false
+				println('You switched to ${term.bright_green(term.bold('Real Mode :)'))}')
 			}
 		}
 		'SY' {

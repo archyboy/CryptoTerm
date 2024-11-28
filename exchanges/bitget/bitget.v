@@ -34,6 +34,17 @@ pub mut:
 	recv     int = 5000
 }
 
+pub struct StandardResponse {
+	code         string       @[json: code]
+	msg          string       @[json: msg]
+	request_time int          @[json: requestTime]
+	data         ResponseData @[json: data]
+}
+
+pub struct ResponseData {
+	server_time string @[json: serverTime]
+}
+
 pub struct TimeResponse {
 	code         string   @[json: code]
 	msg          string   @[json: msg]
@@ -146,7 +157,7 @@ pub fn (mut exchange Exchange) execute(method string, endpoint string, query_str
 	api_resp := api_req.do() or {
 		return error('Could not execute request to API. Check your URL(endpoint/params etc )')
 	}
-	// println(api_resp)
+	println(api_resp)
 
 	return api_resp
 }

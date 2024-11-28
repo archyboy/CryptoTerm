@@ -45,6 +45,7 @@ pub fn (mut app App) get_announcements() !Announcement {
 pub fn (mut app App) show_announcement() ! {
 	announcements := app.get_announcements() or { return error('Could not get announcement') }
 
+	// Sorting announcements array magic way
 	mut announcements_array := announcements.announcements.clone()
 	announcements_array.sort(a.timestamp < b.timestamp)
 
@@ -52,6 +53,16 @@ pub fn (mut app App) show_announcement() ! {
 	// exit(0)
 
 	for key, value in announcements_array {
+		timestamp := i64(17327844228428756825)
+		t := time.unix_nano(timestamp)
+
+		println(t.unix_nano())
+		println(t.unix_micro())
+		println(t.unix_milli())
+		println(t.unix())
+		println(t.format())
+		println(typeof(t).name)
+
 		println('${term.gray(fancystuff.timestamp_milliseconds_to_date(value.timestamp.i64()))}')
 		println('${term.bright_blue(term.bold(value.title))}')
 

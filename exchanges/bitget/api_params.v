@@ -36,7 +36,7 @@ pub fn (exchange Exchange) get_params_place_order() map[string]string {
 		'side':        'buy'
 		'tradeSide':   'open'
 		'orderType':   'limit'
-		'force':       'gtc'
+		//'force':       'gtc'
 		//'clientOid':   '9542042255'
 	}
 	return place_order_params

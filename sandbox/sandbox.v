@@ -1,5 +1,7 @@
 module sandbox
 
+import x.json2
+
 pub struct SandBox {
 	toys []Toys
 }
@@ -14,13 +16,14 @@ struct Toys {
 
 fn init() {
 	// run()
+	// x_json()
 }
 
 pub fn run() {
 	mut m := map[string]string{}
 	m = {
 		'one':   'One Love'
-		'two':   'Two Starts'
+		'two':   'Two Stars'
 		'three': 'Three is all good'
 	}
 
@@ -32,4 +35,10 @@ pub fn (sb SandBox) function_optional_return() ?map[string]string {
 	println('To have a function with optional return type (Ex "none") add a ? at the end of function ("fn function()? type {}")')
 
 	return none
+}
+
+pub fn x_json() ? {
+	// x := json2.raw_decode('{"xyz": ["a", "b", "c"]}')!.as_map()['xyz']!.arr()[0]!
+	// dump(x)
+	// 	return none
 }

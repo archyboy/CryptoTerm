@@ -7,6 +7,7 @@ import time
 import config
 import term
 import sandbox
+import themes
 
 pub struct App {
 pub mut:
@@ -129,51 +130,53 @@ pub fn (mut app App) main_menu() string {
 
 // Matching the users menu choice
 pub fn (mut app App) mainpages() ! {
+	// theme := themes.Funky
+
 	match app.main_menu() {
 		'SA' {
-			println('The Sandbox. Have fun, learn and experiment!\n')
+			println('${themes.Funky.warning.colorize('The Sandbox. Have fun, learn and experiment!')}\n')
 			sb := sandbox.SandBox{}
 			sb.function_optional_return()
 		}
 		'AN' {
-			println('Last announcements\n')
+			println('${term.underline(term.yellow('Last announcements'))}\n')
 			app.show_announcement() or { println(err) }
 		}
 		'W' {
-			println('All your assets accounts (${term.bold(term.gray(app.exchange.name))})\n')
+			println('${term.underline(term.yellow('All your assets accounts'))} (${term.bold(term.gray(app.exchange.name))})\n')
 			app.show_assets() or { println(err) }
 		}
 		'LI' {
-			println('Live wallet\n')
+			println('${term.underline(term.yellow('Live wallet'))}\n')
 			// livewallet.print_api_req_info(exchange)
 			// livewallet.extras(exchange)
 			app.live_wallet(mut app.exchange) or { println(err) }
 		}
 		'O' {
-			println('Owned coins\n')
+			println('${term.underline(term.yellow('Owned coins'))}\n')
 		}
 		'M' {
-			println('Market today\n')
-			println(app.exchange)
+			println('${term.underline(term.yellow('Market today'))}\n')
+			list_coins()
 		}
 		'N' {
-			println('New coins\n')
+			println('${term.underline(term.yellow('New coins'))}\n')
 		}
 		'B' {
-			println('What you want to buy today?\n')
-			app.buy_coins(mut app.exchange)!
+			println('${term.underline(term.yellow('Buy coins'))}\n')
+			app.buy_coins()!
 		}
 		'S' {
-			println('Selling Spot\n')
+			println('${term.underline(term.yellow('Selling Spot'))}\n')
 		}
 		'A' {
-			println('Advises & Suggestions\n')
+			println('${term.underline(term.yellow('Advises & Suggestions'))}\n')
 		}
 		'R' {
-			println('Robot AI\n')
+			println('${term.underline(term.yellow('Robot AI'))}\n')
 		}
 		'C' {
-			println('Config\n')
+			println('${term.underline(term.yellow('Config'))}\n')
 			println(app)
 
 			// goto start

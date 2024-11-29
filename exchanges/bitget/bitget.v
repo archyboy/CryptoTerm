@@ -36,14 +36,14 @@ pub mut:
 }
 
 pub struct StandardResponse {
-	code         string       @[json: code]
-	msg          string       @[json: msg]
-	request_time int          @[json: requestTime]
-	data         ResponseData @[json: data]
+	code         string         @[json: code]
+	msg          string         @[json: msg]
+	request_time int            @[json: requestTime]
+	data         []ResponseData @[json: data]
 }
 
 pub struct ResponseData {
-	server_time string @[json: serverTime]
+	body_json string @[json: body]
 }
 
 pub struct TimeResponse {
@@ -136,8 +136,10 @@ pub fn (mut exchange Exchange) execute(method string, endpoint string, query_str
 	// println('Signature_base64_hash: ' + signature_base64_str)
 
 	// println('Full Request URL: ' + full_request_url)
+	//
 	mut debug_mode := false
 	mut api_req := http.Request{}
+
 	if method.to_upper() == 'GET' {
 		// println('Method: GET')
 		api_req = http.new_request(http.Method.get, full_request_url, '')
@@ -158,7 +160,9 @@ pub fn (mut exchange Exchange) execute(method string, endpoint string, query_str
 	api_resp := api_req.do() or {
 		return error('Could not execute request to API. Check your URL(endpoint/params etc )')
 	}
-	// println(api_resp)
+
+	exchange.time_resp = api_resp
+	// println(exchange.time_resp.body)
 
 	return api_resp
 }

@@ -88,6 +88,7 @@ pub fn (mut app App) main_menu() string {
 	menu['O'] = 'wned coins'
 	menu['M'] = 'arket'
 	menu['N'] = 'ew coins'
+	menu['MO'] = 'Manual Order'
 	menu['B'] = 'uy'
 	menu['S'] = 'ell'
 	menu['A'] = 'dvises'
@@ -161,6 +162,10 @@ pub fn (mut app App) mainpages() ! {
 		}
 		'N' {
 			println('${term.underline(term.yellow('New coins'))}\n')
+		}
+		'MO' {
+			println('${term.underline(term.yellow('Manual order'))}\n')
+			app.manual_order()!
 		}
 		'B' {
 			println('${term.underline(term.yellow('Buy coins'))}\n')

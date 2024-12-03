@@ -123,7 +123,7 @@ pub fn (mut exchange Exchange) execute(method string, endpoint string, query_str
 		full_request_url = (exchange.request.url + endpoint + '?' + query_string).trim(' ')
 	}
 
-	// println('\nPARAMS for signature: ' + params_for_signature_str + '\n')
+	println('\nPARAMS for signature: ' + params_for_signature_str + '\n')
 
 	//# _________________________________________________________________________________________________________________
 	//# Making HMAC signature and pushing it into an []u8 array as bytes() and and base64 encodes it for the API server

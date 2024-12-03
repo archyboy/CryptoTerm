@@ -1,7 +1,5 @@
 module sandbox
 
-import x.json2
-
 pub struct SandBox {
 	toys []Toys
 }
@@ -15,8 +13,6 @@ struct Toys {
 }
 
 fn init() {
-	// run()
-	// x_json()
 }
 
 pub fn run() {

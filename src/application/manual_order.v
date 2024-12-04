@@ -107,43 +107,41 @@ pub fn (mut app App) manual_order() ! {
 
 	println(term.green('${map_params['side'].to_upper()} ${map_params['size']} ${map_params['symbol']} as a ${map_params['orderType'].to_upper()} order at ${map_params['price']} USTD each'))
 	println('${term.bright_blue('\nTotal cost is ${term.bold(total_order_cost.str())}')} ${term.gray('(fee ${order_fee_percent.str()}% = ${total_fee.str()} usdt')}) ')
-	for {
-		match os.input('\nAre you 100% sure (Y/N)?').to_upper() {
-			'Y' {
-				sorted_map := fancystuff.sort_map_string_string(map_params) or {
-					return error('\nSorry...Could not sort the map')
-				}
 
-				json_params := json.encode(sorted_map)
-				// println(json_params)
-				query_string := app.exchange.params_to_query_str(map_params)
+	match os.input('\nAre you 100% sure (Y/N)?').to_upper() {
+		'Y' {
+			sorted_map := fancystuff.sort_map_string_string(map_params) or {
+				return error('\nSorry...Could not sort the map')
+			}
 
-				app.exchange.time_resp = app.exchange.execute('POST'.to_upper(), '/api/v2/mix/order/place-order',
-					'', json_params) or {
-					println(err)
-					return
-				}
-				println('Response status message: ' + app.exchange.time_resp.status_msg.str())
-				println('Response status code: ' + app.exchange.time_resp.status_code.str())
+			json_params := json.encode(sorted_map)
+			// println(json_params)
+			query_string := app.exchange.params_to_query_str(map_params)
 
-				if app.exchange.time_resp.status_code == 200
-					&& app.exchange.time_resp.status_msg == 'OK' {
-					println('Order filled successfully')
-					println('${app.exchange.time_resp}')
-					println('\nGood luck with the ${map_params['productType']}')
-					term.reset('')
-				} else {
-					println('\nSorry..Could NOT fill the order because: ${app.exchange.time_resp}')
-				}
+			app.exchange.time_resp = app.exchange.execute('POST'.to_upper(), '/api/v2/mix/order/place-order',
+				'', json_params) or {
+				println(err)
+				return
 			}
-			'N' {
-				println('\nOKAY!! No loosing money today :|)')
-				break
+			println('Response status message: ' + app.exchange.time_resp.status_msg.str())
+			println('Response status code: ' + app.exchange.time_resp.status_code.str())
+
+			if app.exchange.time_resp.status_code == 200
+				&& app.exchange.time_resp.status_msg == 'OK' {
+				println('Order filled successfully')
+				// println('${app.exchange.time_resp}')
+				println('\nGood luck with the ${map_params['productType']}')
+				term.reset('')
+			} else {
+				println('\nSorry..Could NOT fill the order because: ${app.exchange.time_resp.body}')
 			}
-			else {
-				continue
-				// app.buy_coins()!
-			}
+		}
+		'N' {
+			println('\nOKAY!! No loosing money today :|)')
+			return
+		}
+		else {
+			return
 		}
 	}
 }

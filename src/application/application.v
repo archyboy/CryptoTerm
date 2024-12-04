@@ -165,7 +165,7 @@ pub fn (mut app App) mainpages() ! {
 		}
 		'MO' {
 			println('${term.underline(term.yellow('Manual order'))}\n')
-			app.manual_order()!
+			app.manual_order() or { println(err) }
 		}
 		'B' {
 			println('${term.underline(term.yellow('Buy coins'))}\n')

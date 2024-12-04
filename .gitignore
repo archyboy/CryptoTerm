@@ -16,3 +16,4 @@ bin/
 .vscode/
 *.iml
 db/user.json
+/.pijul/

@@ -154,19 +154,29 @@ pub fn (mut user User) save_user(user_to_save User) ! {
 }
 
 pub fn (mut user User) save_dummy_user(users Users) {
-	// println(users)
-	all_users_json := json.encode_pretty(users)
+	if !os.is_dir(constants.db_dir_path) {
+		println('You dont have a "${constants.db_file_name}" file yet in "${constants.db_dir_path}"')
+		println('Trying to make path: ${constants.db_dir_path}${os.path_separator}${constants.db_file_name}')
+		os.mkdir_all(constants.db_dir_path) or {
+			println('Could not make home directory: ${constants.db_dir_path} because: ${err}')
+			err.str()
+		}
+	}
 
-	// println(all_users_json)
 	mut file_create := os.create(constants.db_file_path) or {
 		println('Could not create the file because: ${err}')
 		return
 	}
-	println('Writing file')
+	print('Writing file.....')
+	time.sleep(time.second * 2)
+
+	all_users_json := json.encode_pretty(users)
 	file_create.write(all_users_json.bytes()) or {
 		println('Could not write the file because: ${err}')
 	}
 	file_create.close()
+
+	println('Success')
 }
 
 pub fn (mut user User) get_dummy_users() Users {

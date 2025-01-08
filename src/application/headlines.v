@@ -58,9 +58,8 @@ pub fn (mut app App) show_announcement() ! {
 		println('${term.gray(time.unix_milli(timestamp).str())} ${term.gray('[${(key + 1).str()}]')}')
 		println('${term.bright_blue(term.bold(value.title))}')
 		if value.language == const_language {
-			println('${term.bright_yellow(value.description)}')
+			//println('${term.bright_yellow(value.description)}')
 		}
 		println('${term.bright_green(value.url)}')
-		println('\n')
 	}
 }

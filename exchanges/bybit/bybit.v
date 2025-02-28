@@ -55,13 +55,13 @@ pub fn (mut exchange Exchange) initialize() !Exchange {
 	if exchange.demo_mode {
 		exchange.description = 'Exchange is ${term.bold('ByBit')}'
 		exchange.request.url = 'https://api-demo.bybit.com'
-		exchange.credentials.api_key = '2SEsaFL9sBXpb2c1so'
-		exchange.credentials.secret_key = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+		exchange.credentials.api_key = 'xxxxxxxxxxxx'
+		exchange.credentials.secret_key = 'bt_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 	} else {
 		exchange.description = 'Exchange is ByBit'
 		exchange.request.url = 'https://api-testnet.bybit.com'
-		exchange.credentials.api_key = 'tDl8uZJiHBvzrd5aWD'
-		exchange.credentials.secret_key = 'xxxxxxxxxxxxxxxxxxxxxxxxxxx'
+		exchange.credentials.api_key = 'xxxxxxxxxxxx'
+		exchange.credentials.secret_key = 'bt_xxxxxxxxxxxxxxxxxxxxxxxxxxx'
 	}
 	return exchange
 }

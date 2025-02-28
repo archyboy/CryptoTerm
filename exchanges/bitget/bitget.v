@@ -75,8 +75,8 @@ pub fn (mut exchange Exchange) initialize() !Exchange {
 	} else {
 		exchange.description = 'Exchange is ${term.bold('BitGet')}'
 		exchange.request.url = 'https://api.bitget.com'
-		exchange.credentials.api_key = 'bg_24cde584f28c63dfefcba222ae122112'
-		exchange.credentials.secret_key = 'f20503dd2829ad5eb5fdb0a4ee5cfcfc56ca0d1e1903dd05fa6803b9ae00c316'
+		exchange.credentials.api_key = 'bg_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+		exchange.credentials.secret_key = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 	}
 	return exchange
 }

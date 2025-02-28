@@ -32,8 +32,8 @@ pub mut:
 pub struct AutoLogin {
 pub mut:
 	autologin        bool
-	username_default string = 'archy'
-	password_default string = 'xzxz'
+	username_default string = 'user'
+	password_default string = 'pass'
 }
 
 pub fn (mut user User) login(error_msg string) !User {
@@ -198,8 +198,8 @@ pub fn (mut user User) get_dummy_users() Users {
 	}
 
 	dummy_users.users << User{
-		username: 'archy'
-		password: 'xzxz'
+		username: 'user'
+		password: 'pass'
 		email:    ''
 		logins:   dummy_logins
 		attempts: 3

@@ -1,12 +1,18 @@
 module main
 
-// import sandbox
+// Exchange modules to import
 import exchanges.bitget
-import userstuff
-import application
-import os
-import config
 import exchanges.bybit
+
+// Main system imports
+import config
+import application
+import userstuff
+
+// Vlib libraries imports	
+import os
+
+
 
 fn main() {
 	// println(test('This is the comment!'))

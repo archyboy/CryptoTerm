@@ -8,6 +8,7 @@ import crypto.hmac
 import term
 import encoding.base64
 import log
+import credentials
 
 //-------------------------------- STRUCTS --------------------------------
 pub struct Exchange {
@@ -25,6 +26,7 @@ pub struct User {
 pub mut:
 	api_key    string
 	secret_key string
+	passphrase string
 }
 
 pub struct Request {
@@ -75,8 +77,20 @@ pub fn (mut exchange Exchange) initialize() !Exchange {
 	} else {
 		exchange.description = 'Exchange is ${term.bold('BitGet')}'
 		exchange.request.url = 'https://api.bitget.com'
-		exchange.credentials.api_key = 'bg_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-		exchange.credentials.secret_key = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+		
+		// Load credentials securely from environment or config file
+		creds := credentials.load_credentials('bitget') or {
+			return error('Failed to load BitGet credentials: ${err}\nPlease set environment variables (BITGET_API_KEY, BITGET_SECRET_KEY, BITGET_PASSPHRASE) or create a credentials file.')
+		}
+		
+		// Validate credentials
+		if !creds.is_valid() {
+			return error('Invalid BitGet credentials. Please ensure you have set real API credentials (not example values).')
+		}
+		
+		exchange.credentials.api_key = creds.api_key
+		exchange.credentials.secret_key = creds.secret_key
+		exchange.credentials.passphrase = creds.passphrase
 	}
 	return exchange
 }
@@ -153,7 +167,7 @@ pub fn (mut exchange Exchange) execute(method string, endpoint string, query_str
 	api_req.header.add_custom('ACCESS-KEY', exchange.credentials.api_key)!
 	api_req.header.add_custom('ACCESS-SIGN', signature_base64_str.str())!
 	api_req.header.add_custom('ACCESS-TIMESTAMP', time_resp.data.server_time.str())!
-	api_req.header.add_custom('ACCESS-PASSPHRASE', 'RabbaGast78')!
+	api_req.header.add_custom('ACCESS-PASSPHRASE', exchange.credentials.passphrase)!
 
 	// println(api_req)
 

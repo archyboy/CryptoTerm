@@ -7,6 +7,7 @@ import time
 import crypto.sha256
 import crypto.hmac
 import term
+import credentials
 
 pub struct Exchange {
 pub mut:
@@ -53,15 +54,26 @@ pub fn (mut exchange Exchange) initialize() !Exchange {
 	exchange.name = 'bybit'
 
 	if exchange.demo_mode {
-		exchange.description = 'Exchange is ${term.bold('ByBit')}'
+		exchange.description = 'Exchange is ${term.bold('ByBit Demo')}'
 		exchange.request.url = 'https://api-demo.bybit.com'
-		exchange.credentials.api_key = 'xxxxxxxxxxxx'
-		exchange.credentials.secret_key = 'bt_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+		exchange.credentials.api_key = ''
+		exchange.credentials.secret_key = ''
 	} else {
 		exchange.description = 'Exchange is ByBit'
 		exchange.request.url = 'https://api-testnet.bybit.com'
-		exchange.credentials.api_key = 'xxxxxxxxxxxx'
-		exchange.credentials.secret_key = 'bt_xxxxxxxxxxxxxxxxxxxxxxxxxxx'
+		
+		// Load credentials securely from environment or config file
+		creds := credentials.load_credentials('bybit') or {
+			return error('Failed to load ByBit credentials: ${err}\nPlease set environment variables (BYBIT_API_KEY, BYBIT_SECRET_KEY) or create a credentials file.')
+		}
+		
+		// Validate credentials
+		if !creds.is_valid() {
+			return error('Invalid ByBit credentials. Please ensure you have set real API credentials (not example values).')
+		}
+		
+		exchange.credentials.api_key = creds.api_key
+		exchange.credentials.secret_key = creds.secret_key
 	}
 	return exchange
 }

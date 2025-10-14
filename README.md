@@ -137,7 +137,25 @@ v run src/main.v
 
 ### Configuration
 
-1. **Exchange API Keys**: Edit the exchange initialization in `src/main.v` or relevant exchange module files to add your API credentials.
+1. **Exchange API Keys**: 
+   
+   **Important:** Never hardcode API credentials in source code. Use one of these secure methods:
+
+   **Method 1 - Environment Variables (Recommended):**
+   ```bash
+   export BITGET_API_KEY="your_api_key"
+   export BITGET_SECRET_KEY="your_secret_key"
+   export BITGET_PASSPHRASE="your_passphrase"
+   ```
+
+   **Method 2 - Configuration File:**
+   ```bash
+   cp credentials.example.json ~/.crypto_term/credentials.json
+   # Edit with your real credentials
+   chmod 600 ~/.crypto_term/credentials.json
+   ```
+
+   See [SECURITY.md](SECURITY.md) for detailed credential management instructions.
 
 2. **Demo Mode**: Toggle demo mode in `src/main.v`:
 ```v
@@ -297,13 +315,17 @@ Contributions are welcome! Here's how you can help:
 
 ⚠️ **Important Security Notes:**
 
-- Never commit API keys to the repository
-- Use environment variables for sensitive credentials
-- Always test with demo mode first
-- Be cautious with automated trading - start with small amounts
-- Regularly rotate API keys
-- Use API keys with minimal necessary permissions
-- Enable IP whitelisting on exchanges when possible
+- ✅ **Never commit API keys to the repository** - Use environment variables or secure config files
+- ✅ **Secure credential management** - See [SECURITY.md](SECURITY.md) for detailed instructions
+- ✅ **Always test with demo mode first** - Verify functionality before risking real funds
+- ✅ **Use minimal API permissions** - Disable withdrawals if not needed
+- ✅ **Enable IP whitelisting** on exchanges when possible
+- ✅ **Regularly rotate API keys** - Change keys every 30-90 days
+- ✅ **Start with small amounts** for automated trading
+- ✅ **Enable 2FA** on all exchange accounts
+- ✅ **Monitor account activity** regularly for suspicious behavior
+
+**📖 Read [SECURITY.md](SECURITY.md) for comprehensive security guidelines.**
 
 ## License
 

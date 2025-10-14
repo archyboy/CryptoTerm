@@ -17,3 +17,8 @@ bin/
 *.iml
 db/user.json
 /.pijul/
+
+# Security: Never commit credentials
+credentials.json
+**/credentials.json
+.crypto_term/credentials.json

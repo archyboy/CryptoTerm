@@ -15,9 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Impact:** Hardcoded API credentials exposed in source code could allow unauthorized access to exchange accounts
 
 **What was fixed:**
-- Removed all hardcoded API keys from `exchanges/bitget/bitget.v`
-- Removed all hardcoded API secrets from `exchanges/bybit/bybit.v`
-- Removed hardcoded passphrase from BitGet exchange module
+- Removed all hardcoded API credentials from exchange modules
+- Removed hardcoded authentication values from API headers
 - Implemented secure credential management system
 
 **Breaking Changes:**
@@ -52,7 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **BitGet Exchange Module** (`exchanges/bitget/bitget.v`)
   - Now loads credentials from secure sources
   - Added `passphrase` field to `User` struct
-  - Uses dynamic passphrase instead of hardcoded value
+  - Uses dynamic authentication values
   - Improved error messages for credential issues
 
 - **ByBit Exchange Module** (`exchanges/bybit/bybit.v`)
@@ -74,7 +73,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 - **FIXED:** CVE-TBD - Hardcoded API credentials in source code
-- **FIXED:** CVE-TBD - Hardcoded passphrase in source code
+- **FIXED:** CVE-TBD - Hardcoded authentication values in source code
 - **IMPROVED:** Credential storage and management
 - **IMPROVED:** Security documentation and guidelines
 - **IMPROVED:** Protection against accidental credential commits

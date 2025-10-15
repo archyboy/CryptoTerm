@@ -8,10 +8,10 @@ Version 0.0.2 introduces **secure credential management** to fix critical securi
 
 ### Before (Insecure ❌)
 ```v
-// Hardcoded in exchanges/bitget/bitget.v
-exchange.credentials.api_key = 'bg_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-exchange.credentials.secret_key = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-api_req.header.add_custom('ACCESS-PASSPHRASE', 'RabbaGast78')!
+// Credentials were hardcoded directly in source code
+exchange.credentials.api_key = 'hardcoded_value'
+exchange.credentials.secret_key = 'hardcoded_value'
+api_req.header.add_custom('ACCESS-PASSPHRASE', 'hardcoded_value')!
 ```
 
 ### After (Secure ✅)

@@ -14,16 +14,10 @@
 
 **Before (INSECURE):**
 ```v
-// exchanges/bitget/bitget.v - Lines 78-79
-exchange.credentials.api_key = 'bg_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-exchange.credentials.secret_key = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-
-// Line 156
-api_req.header.add_custom('ACCESS-PASSPHRASE', 'RabbaGast78')!
-
-// exchanges/bybit/bybit.v - Lines 58-59, 63-64
-exchange.credentials.api_key = 'xxxxxxxxxxxx'
-exchange.credentials.secret_key = 'bt_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+// Credentials were hardcoded directly in exchange modules
+exchange.credentials.api_key = 'hardcoded_value'
+exchange.credentials.secret_key = 'hardcoded_value'
+api_req.header.add_custom('ACCESS-PASSPHRASE', 'hardcoded_value')!
 ```
 
 **After (SECURE):**
@@ -58,15 +52,13 @@ exchange.credentials.passphrase = creds.passphrase
 ### ✏️ Modified Files (4)
 
 1. **`exchanges/bitget/bitget.v`**
-   - Removed hardcoded API key (line 78)
-   - Removed hardcoded secret key (line 79)
-   - Removed hardcoded passphrase (line 156)
+   - Removed hardcoded API credentials
+   - Removed hardcoded passphrase from headers
    - Added secure credential loading
    - Added validation checks
 
 2. **`exchanges/bybit/bybit.v`**
-   - Removed hardcoded API keys (lines 58-59, 63-64)
-   - Removed hardcoded secret keys
+   - Removed hardcoded API credentials
    - Added secure credential loading
    - Added validation checks
 
